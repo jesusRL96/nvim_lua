@@ -78,6 +78,9 @@ keymap("n", "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep()<cr>",
 keymap("n", "<leader>fb", "<cmd>lua require'telescope.builtin'.buffers()<cr>", opts)
 keymap("n", "<leader>fh", "<cmd>lua require'telescope.builtin'.help_tags()<cr>", opts)
 
+-- Nvim-tree
+keymap("n", "<leader>tt", "<cmd>NvimTreeToggle<cr>", opts)
+
 -- Terminal --
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
