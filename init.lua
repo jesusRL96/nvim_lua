@@ -1,15 +1,10 @@
-require "editor.options"
-require "editor.keymaps"
-require "editor.plugins"
-require "editor.colorscheme"
-require "editor.cmp"
-require "editor.lsp"
-require "editor.telescope"
-require "editor.treesitter"
-require "editor.autopairs"
-require "editor.gitsigns"
-require "editor.comment"
-require "editor.bufferline"
-require "editor.lualine"
-require "editor.toggleterm"
-require "editor.nvim-tree"
+for _, source in ipairs {
+    "editor.options",
+    "editor.plugins",
+    "editor.keymaps",
+    "editor.colorscheme",
+} do
+  local status_ok, fault = pcall(require, source)
+  if not status_ok then vim.api.nvim_err_writeln("Failed to load " .. source .. "\n\n" .. fault) end
+end
+

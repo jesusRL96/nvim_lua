@@ -14,4 +14,3 @@ o.expandtab = true
 o.shiftwidth = 4  
 o.softtabstop = 4
 o.cursorline = true
-
