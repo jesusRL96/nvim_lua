@@ -54,26 +54,27 @@ return packer.startup(function(use)
   use {"lunarvim/darkplus.nvim"}
   use {"EdenEast/nightfox.nvim"}
 
-  -- cmp plugins
-  use {"hrsh7th/cmp-buffer"} -- buffer completions
-  use {"hrsh7th/cmp-path", after = 'cmp-buffer'} -- path completions
-  use {"hrsh7th/cmp-cmdline", after = 'cmp-path'} -- cmdline completions
-  use {"saadparwaiz1/cmp_luasnip", after = 'cmp-cmdline'} -- snippet completions
-  use {"hrsh7th/cmp-nvim-lsp", after = 'cmp_luasnip'}
-  use {"hrsh7th/nvim-cmp", after = 'cmp-nvim-lsp', config = function() require'configs.cmp' end} -- The completion plugin
-
   -- snippets
   use {"L3MON4D3/LuaSnip"} --snippet engine
   use {"rafamadriz/friendly-snippets"} -- a bunch of snippets to use
 
-  -- LSP
-  use {"williamboman/mason.nvim", config = function() require "configs.mason" end}
-  use {"WhoIsSethDaniel/mason-tool-installer.nvim", after = "mason.nvim", config = function() require"configs.mason-tool-installer" end}
-  use {"neovim/nvim-lspconfig"} -- enable LSP
-  use {"jose-elias-alvarez/null-ls.nvim", event = { "BufRead", "BufNewFile" }} -- for formatters and linters
-  use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }}
-  use {"williamboman/mason-lspconfig.nvim", after = { "mason.nvim", "nvim-lspconfig" }, config = function() require"configs.lsp" end,}
+  -- cmp plugins
+  use {"hrsh7th/nvim-cmp", } -- The completion plugin
+  use {"hrsh7th/cmp-buffer", after = 'nvim-cmp'} -- buffer completions
+  use {"hrsh7th/cmp-path", after = 'cmp-buffer'} -- path completions
+  use {"hrsh7th/cmp-cmdline", after = 'cmp-path'} -- cmdline completions
+  use {"saadparwaiz1/cmp_luasnip", after = 'cmp-cmdline'} -- snippet completions
+  use {"hrsh7th/cmp-nvim-lsp", after = 'cmp_luasnip', config = function() require'configs.cmp' end}
 
+  -- LSP
+  use {"williamboman/mason.nvim"}
+  use {"WhoIsSethDaniel/mason-tool-installer.nvim"}
+  use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },} -- for formatters and linters
+  use {"neovim/nvim-lspconfig"} -- enable LSP
+  --[[ use {"MunifTanjim/prettier.nvim", config = function() require"configs.prettier" end,} ]]
+  use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
+  use {"williamboman/mason-lspconfig.nvim", after = "mason-null-ls.nvim" , config = function() require"configs.lsp" end}
+    
   -- Telescope
   use {"nvim-telescope/telescope.nvim"}
   use {'nvim-telescope/telescope-media-files.nvim', after = 'telescope.nvim', config = function() require'configs.telescope' end}
