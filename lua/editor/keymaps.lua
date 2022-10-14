@@ -82,6 +82,8 @@ keymap("n", "<leader>fh", "<cmd>lua require'telescope.builtin'.help_tags()<cr>",
 
 -- Nvim-tree
 keymap("n", "<leader>tt", "<cmd>NvimTreeToggle<cr>", opts)
+keymap("n", "<leader>tft", "<cmd>NvimTreeFocus<cr>", opts)
+keymap("n", "<leader>tff", "<cmd>NvimTreeFindFile<cr>", opts)
 
 --
 keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, silent = true})
