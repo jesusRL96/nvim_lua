@@ -73,7 +73,7 @@ return packer.startup(function(use)
   use {"williamboman/mason-lspconfig.nvim", after = "mason.nvim" , config = function() require"configs.lsp" end}
   -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }}
   --use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },config = function() require"configs.null-ls" end,} -- for formatters and linters
-  --[[ use {"MunifTanjim/prettier.nvim", config = function() require"configs.prettier" end,} ]]
+  use {"MunifTanjim/prettier.nvim", after="null-ls.nvim", config = function() require"configs.prettier" end,}
   -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim}
   -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
     

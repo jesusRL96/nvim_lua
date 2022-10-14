@@ -35,6 +35,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.formatting_sync { async = true } end, bufopts)
+  if client.name == "tsserver" then
+    client.resolved_capabilities.document_formatting = false
+  end
 end
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
