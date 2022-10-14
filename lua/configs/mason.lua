@@ -1,4 +1,4 @@
-local status_ok, mason = pcall(require, "mason")
+mason = require("mason")
 if not status_ok then return end
 mason.setup({
     ui = {

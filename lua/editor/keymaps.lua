@@ -43,7 +43,9 @@ keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 
 -- Copy & Paste
 keymap("n", "<leader>y", "\"+y", opts)
+keymap("v", "<leader>y", "\"+y", opts)
 keymap("n", "<leader>p", "\"+p", opts)
+keymap("v", "<leader>p", "\"+p", opts)
 
 -- Insert --
 -- Press jk fast to exit insert mode 

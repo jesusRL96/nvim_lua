@@ -51,7 +51,6 @@ return packer.startup(function(use)
   use {"akinsho/toggleterm.nvim", config = function() require'configs.toggleterm' end}
 
   -- colorschemes
-  use {"lunarvim/darkplus.nvim"}
   use {"EdenEast/nightfox.nvim"}
 
   -- snippets
@@ -71,15 +70,17 @@ return packer.startup(function(use)
   use {"WhoIsSethDaniel/mason-tool-installer.nvim"}
   use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },} -- for formatters and linters
   use {"neovim/nvim-lspconfig"} -- enable LSP
+  use {"williamboman/mason-lspconfig.nvim", after = "mason.nvim" , config = function() require"configs.lsp" end}
+  -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }}
+  --use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },config = function() require"configs.null-ls" end,} -- for formatters and linters
   --[[ use {"MunifTanjim/prettier.nvim", config = function() require"configs.prettier" end,} ]]
-  use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
-  use {"williamboman/mason-lspconfig.nvim", after = "mason-null-ls.nvim" , config = function() require"configs.lsp" end}
+  -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim}
+  -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
     
   -- Telescope
   use {"nvim-telescope/telescope.nvim"}
   use {'nvim-telescope/telescope-media-files.nvim', after = 'telescope.nvim', config = function() require'configs.telescope' end}
 
-  -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
@@ -88,11 +89,10 @@ return packer.startup(function(use)
   use "p00f/nvim-ts-rainbow"
   use "nvim-treesitter/playground"
   use 'JoosepAlviste/nvim-ts-context-commentstring'
-
+  
   -- Git
   use "tpope/vim-fugitive"
   use {"lewis6991/gitsigns.nvim", after = 'vim-fugitive', config = function() require'configs.gitsigns' end}
-
 
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
