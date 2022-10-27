@@ -1,4 +1,3 @@
-local fn = vim.fn
 -- Automatically install packer
 local ensure_packer = function()
   local fn = vim.fn
@@ -11,6 +10,8 @@ local ensure_packer = function()
   return false
 end
 
+local packer_bootstrap = ensure_packer()
+local fn = vim.fn
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 vim.cmd [[
@@ -84,11 +85,13 @@ return packer.startup(function(use)
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
-    config = function() require'configs.treesitter' end
   }
-  use "p00f/nvim-ts-rainbow"
-  use "nvim-treesitter/playground"
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
+  -- use "nvim-treesitter/playground"
+  use {"p00f/nvim-ts-rainbow", after = "nvim-treesitter"}
+  use {"JoosepAlviste/nvim-ts-context-commentstring", 
+		after = "nvim-treesitter", 
+		config= function() require'configs.treesitter'end,
+	}
   
   -- Git
   use "tpope/vim-fugitive"
