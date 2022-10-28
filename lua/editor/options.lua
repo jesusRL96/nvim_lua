@@ -13,3 +13,5 @@ o.tabstop = 2
 o.expandtab = false     
 o.shiftwidth = 2  
 o.softtabstop = 2
+--[[ o.cursorcolumn = true ]]
+o.cursorline = true
