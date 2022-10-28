@@ -48,9 +48,23 @@ local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
 }
+
+local lspconfig = require('lspconfig')
+local python_root_files = {
+  'WORKSPACE',
+  'pyproject.toml',
+  'setup.py',
+  'setup.cfg',
+  'requirements.txt',
+  'requirements.pip',
+  'Pipfile',
+  'pyrightconfig.json',
+}
+
 require('lspconfig')['pyright'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
+		root_dir = lspconfig.util.root_pattern(unpack(python_root_files))
 }
 require('lspconfig')['tsserver'].setup{
     flags = lsp_flags,
