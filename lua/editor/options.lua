@@ -7,7 +7,7 @@ o.relativenumber = true
 o.showmatch = true
 o.hlsearch = true
 o.wildmode = {"longest","list"}
-o.mouse = "n"
+o.mouse = "a"
 vim.cmd "filetype plugin indent on"
 o.tabstop = 2       
 o.expandtab = false     

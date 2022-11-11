@@ -46,13 +46,14 @@ return packer.startup(function(use)
   use {"numToStr/Comment.nvim", config = function() require'configs.comment' end} -- Easily comment stuff
   use 'kyazdani42/nvim-web-devicons'
   use {"kyazdani42/nvim-tree.lua", config = function() require'configs.nvim-tree' end}
-  use {"akinsho/bufferline.nvim", config = function() require'configs.bufferline' end}
+  use {"akinsho/bufferline.nvim", tag = 'v2.*' , config = function() require'configs.bufferline' end}
   use "moll/vim-bbye"
   use {'nvim-lualine/lualine.nvim', config = function() require'configs.lualine' end}
   use {"akinsho/toggleterm.nvim", config = function() require'configs.toggleterm' end}
 
   -- colorschemes
   use {"EdenEast/nightfox.nvim"}
+	use "savq/melange"
 
   -- snippets
   use {"L3MON4D3/LuaSnip"} --snippet engine
@@ -84,7 +85,7 @@ return packer.startup(function(use)
 
   use {
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
+		run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
   -- use "nvim-treesitter/playground"
   use {"p00f/nvim-ts-rainbow", after = "nvim-treesitter"}

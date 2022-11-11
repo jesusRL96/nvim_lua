@@ -85,8 +85,12 @@ keymap("n", "<leader>tt", "<cmd>NvimTreeToggle<cr>", opts)
 keymap("n", "<leader>tft", "<cmd>NvimTreeFocus<cr>", opts)
 keymap("n", "<leader>tff", "<cmd>NvimTreeFindFile<cr>", opts)
 
+-- Git
+keymap("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
+
 --
 keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, silent = true})
+
 -- Terminal --
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
