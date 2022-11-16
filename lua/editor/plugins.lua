@@ -59,11 +59,15 @@ return packer.startup(function(use)
   use {"L3MON4D3/LuaSnip"} --snippet engine
   use {"rafamadriz/friendly-snippets"} -- a bunch of snippets to use
 
+
   -- cmp plugins
   use {"hrsh7th/nvim-cmp", } -- The completion plugin
   use {"hrsh7th/cmp-buffer", after = 'nvim-cmp'} -- buffer completions
   use {"hrsh7th/cmp-path", after = 'cmp-buffer'} -- path completions
   use {"hrsh7th/cmp-cmdline", after = 'cmp-path'} -- cmdline completions
+  use {"hrsh7th/cmp-vsnip"}
+  use {"hrsh7th/vim-vsnip"}
+  use {"hrsh7th/vim-vsnip-integ"}
   use {"saadparwaiz1/cmp_luasnip", after = 'cmp-cmdline'} -- snippet completions
   use {"hrsh7th/cmp-nvim-lsp", after = 'cmp_luasnip', config = function() require'configs.cmp' end}
 
