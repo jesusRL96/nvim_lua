@@ -102,6 +102,15 @@ return packer.startup(function(use)
   use "tpope/vim-fugitive"
   use {"lewis6991/gitsigns.nvim", after = 'vim-fugitive', config = function() require'configs.gitsigns' end}
 
+	-- rest client
+	use {
+		"rest-nvim/rest.nvim",
+		requires = { "nvim-lua/plenary.nvim" },
+		config= function() require'configs.rest-nvim'end,
+	}
+	-- tabnine 
+	use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
+
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
     require("packer").sync()

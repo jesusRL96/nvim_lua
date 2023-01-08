@@ -15,4 +15,4 @@ o.shiftwidth = 2
 o.softtabstop = 2
 --[[ o.cursorcolumn = true ]]
 o.cursorline = true
-o.scrolloff = 999
+--[[ o.scrolloff = 999 ]]

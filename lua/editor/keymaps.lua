@@ -91,6 +91,10 @@ keymap("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
 --
 keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, silent = true})
 
+-- rest-nvim
+keymap("n", "<leader>rc", "<cmd>lua require'rest-nvim'.run()<CR>", {noremap = true, silent = true})
+
+
 -- Terminal --
 -- Better terminal navigation
 keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)

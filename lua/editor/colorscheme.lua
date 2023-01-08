@@ -1,8 +1,10 @@
 vim.cmd [[
 try
-  colorscheme dawnfox
+  colorscheme melange
+  set background=light
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
   set background=dark
 endtry
 ]]
+
