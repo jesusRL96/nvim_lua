@@ -16,3 +16,8 @@ o.softtabstop = 2
 --[[ o.cursorcolumn = true ]]
 o.cursorline = true
 --[[ o.scrolloff = 999 ]]
+
+o.foldmethod = "expr"
+o.foldexpr = "nvim_treesitter#foldexpr()"
+o.foldlevel = 20
+o.foldlevelstart = -1
