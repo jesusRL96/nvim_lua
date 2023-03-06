@@ -58,10 +58,11 @@ return packer.startup(function(use)
   -- snippets
   use {"L3MON4D3/LuaSnip"} --snippet engine
   use {"rafamadriz/friendly-snippets"} -- a bunch of snippets to use
+	use {'onsails/lspkind.nvim'}
 
 
   -- cmp plugins
-  use {"hrsh7th/nvim-cmp", } -- The completion plugin
+  use {"hrsh7th/nvim-cmp", after= 'lspkind.nvim' } -- The completion plugin
   use {"hrsh7th/cmp-buffer", after = 'nvim-cmp'} -- buffer completions
   use {"hrsh7th/cmp-path", after = 'cmp-buffer'} -- path completions
   use {"hrsh7th/cmp-cmdline", after = 'cmp-path'} -- cmdline completions
@@ -82,7 +83,7 @@ return packer.startup(function(use)
   use {"MunifTanjim/prettier.nvim", after="null-ls.nvim", config = function() require"configs.prettier" end,}
   -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim}
   -- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
-    
+
   -- Telescope
   use {"nvim-telescope/telescope.nvim"}
   use {'nvim-telescope/telescope-media-files.nvim', after = 'telescope.nvim', config = function() require'configs.telescope' end}
@@ -93,11 +94,11 @@ return packer.startup(function(use)
   }
   -- use "nvim-treesitter/playground"
   use {"p00f/nvim-ts-rainbow", after = "nvim-treesitter"}
-  use {"JoosepAlviste/nvim-ts-context-commentstring", 
-		after = "nvim-treesitter", 
+  use {"JoosepAlviste/nvim-ts-context-commentstring",
+		after = "nvim-treesitter",
 		config= function() require'configs.treesitter'end,
 	}
-  
+
   -- Git
   use "tpope/vim-fugitive"
   use {"lewis6991/gitsigns.nvim", after = 'vim-fugitive', config = function() require'configs.gitsigns' end}
@@ -108,8 +109,14 @@ return packer.startup(function(use)
 		requires = { "nvim-lua/plenary.nvim" },
 		config= function() require'configs.rest-nvim'end,
 	}
-	-- tabnine 
-	use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
+	-- tabnine
+	-- use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
+	use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp', config = function() require'configs.cmp-tabnine' end}
+
+
+
+	-- editorconfig
+  use {"gpanders/editorconfig.nvim"}
 
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then

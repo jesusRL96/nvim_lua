@@ -23,9 +23,10 @@ o.foldexpr = "nvim_treesitter#foldexpr()"
 o.foldlevel = 20
 o.foldlevelstart = -1
 o.listchars = {
-  tab = '»·',
+  tab = '→ ',
   extends = '⟩',
   precedes = '⟨',
-  space = '·'
+  space = '·',
+  eol = '↲'
 }
-o.list = true
+-- o.list = true
