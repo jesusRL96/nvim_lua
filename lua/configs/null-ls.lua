@@ -1,6 +1,6 @@
 local null_ls = require('null-ls')
 
-  
+
 --mason_null_ls.setup_handlers = {
 --    function(source_name)
 --      -- all sources with no handler get passed here
@@ -20,6 +20,8 @@ require("null-ls").setup({
     require("null-ls").builtins.formatting.prettier, -- markdown formatting
     require("null-ls").builtins.formatting.stylua,
     require("null-ls").builtins.formatting.black,
+    require("null-ls").builtins.formatting.djlint,
+    -- require("null-ls").builtins.formatting.djhtml,
     require("null-ls").builtins.diagnostics.eslint,
   },
   on_attach = function(client, bufnr)

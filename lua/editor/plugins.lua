@@ -113,7 +113,15 @@ return packer.startup(function(use)
 	-- use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
 	use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp', config = function() require'configs.cmp-tabnine' end}
 
-
+	-- session
+	use({
+		"folke/persistence.nvim",
+		event = "BufReadPre", -- this will only start session saving when an actual file was opened
+		module = "persistence",
+		config = function()
+			require("persistence").setup()
+		end,
+	})
 
 	-- editorconfig
   use {"gpanders/editorconfig.nvim"}

@@ -10,7 +10,7 @@ keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Modes 
+-- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
 --   visual_mode = "v",
@@ -48,7 +48,7 @@ keymap("n", "<leader>p", "\"+p", opts)
 keymap("v", "<leader>p", "\"+p", opts)
 
 -- Insert --
--- Press jk fast to exit insert mode 
+-- Press jk fast to exit insert mode
 keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
@@ -94,6 +94,13 @@ keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", {noremap = true, sile
 -- rest-nvim
 keymap("n", "<leader>rc", "<cmd>lua require'rest-nvim'.run()<CR>", {noremap = true, silent = true})
 
+-- Sessions
+-- restore the session for the current directory
+keymap("n", "<leader>qs", "<cmd>lua require('persistence').load()<CR>", {})
+-- restore the last session
+keymap("n", "<leader>ql", "<cmd>lua require('persistence').load({ last = true })<CR>", {})
+-- stop Persistence => session won't be saved on exit
+keymap("n", "<leader>qd", "<cmd>lua require('persistence').stop()<CR>", {})
 
 -- Terminal --
 -- Better terminal navigation
