@@ -21,7 +21,7 @@ local diff = {
 	"diff",
 	colored = false,
 	symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
-  cond = hide_in_width
+	cond = hide_in_width,
 }
 
 local mode = {
@@ -49,18 +49,18 @@ local location = {
 }
 
 local filename = {
-	'filename',
+	"filename",
 	file_status = true,
-	path = 1
+	path = 1,
 }
 
 local tabline = {
-		lualine_a = {},
-		lualine_b = {'branch'},
-		lualine_c = {'filename'},
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {}
+	lualine_a = {},
+	lualine_b = { "branch" },
+	lualine_c = { "filename" },
+	lualine_x = {},
+	lualine_y = {},
+	lualine_z = {},
 }
 -- cool function for progress
 local progress = function()

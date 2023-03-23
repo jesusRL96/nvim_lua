@@ -6,9 +6,9 @@ o.number = true
 o.relativenumber = true
 o.showmatch = true
 o.hlsearch = true
-o.wildmode = {"longest","list"}
+o.wildmode = { "longest", "list" }
 o.mouse = "a"
-vim.cmd "filetype plugin indent on"
+vim.cmd("filetype plugin indent on")
 o.tabstop = 2
 o.expandtab = false
 o.shiftwidth = 2
@@ -23,10 +23,10 @@ o.foldexpr = "nvim_treesitter#foldexpr()"
 o.foldlevel = 20
 o.foldlevelstart = -1
 o.listchars = {
-  tab = '→ ',
-  extends = '⟩',
-  precedes = '⟨',
-  space = '·',
-  eol = '↲'
+	tab = "→ ",
+	extends = "⟩",
+	precedes = "⟨",
+	space = "·",
+	eol = "↲",
 }
 -- o.list = true
