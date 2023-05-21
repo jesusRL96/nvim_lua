@@ -1,7 +1,9 @@
-require("configs.null-ls")
-require("configs.mason")
-require("configs.mason-lspconfig")
-require("configs.mason-tool-installer")
+function load_config()
+	require("configs.null-ls")
+	require("configs.mason")
+	require("configs.mason-lspconfig")
+	require("configs.mason-tool-installer")
+end
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

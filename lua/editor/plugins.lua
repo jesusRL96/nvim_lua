@@ -63,10 +63,11 @@ return packer.startup(function(use)
 	})
 	use({
 		"akinsho/bufferline.nvim",
-		tag = "v2.*",
+		-- tag = "v3.*",
 		config = function()
 			require("configs.bufferline")
 		end,
+		requires = 'nvim-tree/nvim-web-devicons'
 	})
 	use("moll/vim-bbye")
 	use({
@@ -166,6 +167,10 @@ return packer.startup(function(use)
 		config = function()
 			require("configs.gitsigns")
 		end,
+	})
+	use({
+		"airblade/vim-gitgutter",
+		after = "vim-fugitive",
 	})
 
 	-- rest client
