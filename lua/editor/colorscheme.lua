@@ -1,7 +1,7 @@
 vim.cmd([[
 try
-  colorscheme melange
-  set background=light
+  colorscheme carbonfox
+  set background=dark
 catch /^Vim\%((\a\+)\)\=:E185/
   colorscheme default
   set background=dark
