@@ -158,6 +158,10 @@ return packer.startup(function(use)
 			require("configs.treesitter")
 		end,
 	})
+	use({
+		"windwp/nvim-ts-autotag",
+		after = "nvim-treesitter",
+	})
 
 	-- Git
 	use("tpope/vim-fugitive")
