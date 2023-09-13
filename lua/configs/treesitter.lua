@@ -1,7 +1,15 @@
 local configs = require("nvim-treesitter.configs")
 configs.setup({
-	ensure_installed = "all",
+	ensure_installed = {
+		"c", "lua", "vim", "vimdoc", "query",
+		"javascript", "html", "htmldjango",
+		"css", "scss", "csv",
+		"python", "sql", "yaml", "xml", "matlab", "typescript",
+		"ninja", "markdown", "json", "http", "gitignore", "gitcommit", "dockerfile"
+
+	},
 	sync_install = false,
+	auto_install = true,
 	ignore_install = { "" }, -- List of parsers to ignore installing
 	highlight = {
 		enable = true, -- false will disable the whole extension
