@@ -93,6 +93,7 @@ require("lspconfig")["emmet_ls"].setup({
 		"html",
 		"typescriptreact",
 		"javascriptreact",
+		"javascript",
 		"css",
 		"sass",
 		"scss",
@@ -102,6 +103,19 @@ require("lspconfig")["emmet_ls"].setup({
 		"htmldjango",
 	},
 	init_options = {
+		-- js = {
+		-- 	options= {
+		-- 		["jsx.enabled"] = true,
+		-- 		['markup.attributes']= {
+		-- 				['class']= 'className',
+		-- 				['class*']= 'styleName',
+		-- 				['for']= 'htmlFor'
+		-- 		},
+		-- 		['markup.valuePrefix']= {
+		-- 				['class*']= 'styles'
+		-- 		}
+		-- 	}
+		-- },
 		html = {
 			options = {
 				-- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267

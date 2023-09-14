@@ -116,4 +116,5 @@ keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Files
-keymap("n", "fjsx", "<cmd>set filetype=javascriptreact<cr>", term_opts)
+keymap("n", "jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
+keymap("n", "jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
