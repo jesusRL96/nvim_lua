@@ -1,4 +1,7 @@
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup{
+	ensure_installed = { "lua_ls", "rust_analyzer", "pyright" },
+	automatic_installation = true,
+}
 -- mason_lspconfig = require("mason-lspconfig")
 -- local status_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
 -- if not status_ok then

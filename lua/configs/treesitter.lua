@@ -5,7 +5,7 @@ configs.setup({
 		"javascript", "html", "htmldjango",
 		"css", "scss", "csv",
 		"python", "sql", "yaml", "xml", "matlab", "typescript",
-		"ninja", "markdown", "json", "http", "gitignore", "gitcommit", "dockerfile"
+		"ninja", "markdown", "json", "http", "gitignore", "gitcommit", "dockerfile", "bash"
 
 	},
 	sync_install = false,

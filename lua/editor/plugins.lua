@@ -113,6 +113,13 @@ return packer.startup(function(use)
 	use({ "williamboman/mason.nvim" })
 	use({ "WhoIsSethDaniel/mason-tool-installer.nvim" })
 	use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- for formatters and linters
+	use({
+		"jay-babu/mason-null-ls.nvim",
+		requires = { "jose-elias-alvarez/null-ls.nvim" },
+				config = function()
+			require("configs.mason-null-ls")
+		end,
+	})
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({
 		"williamboman/mason-lspconfig.nvim",

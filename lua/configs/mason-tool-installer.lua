@@ -40,7 +40,7 @@ mason_t_i = setup({
 	-- are available the tool will be updated. This setting does not
 	-- affect :MasonToolsUpdate or :MasonToolsInstall.
 	-- Default: false
-	auto_update = false,
+	auto_update = true,
 
 	-- automatically install / update on startup. If set to false nothing
 	-- will happen on startup. You can use :MasonToolsInstall or
