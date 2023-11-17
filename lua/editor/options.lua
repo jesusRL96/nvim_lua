@@ -30,7 +30,7 @@ o.listchars = {
 	eol = "↲",
 }
 -- o.list = true
-o.synmaxcol = 100
+-- o.synmaxcol = 100
 o.ttyfast = true
 o.lazyredraw = true
 o.wrap = false

@@ -61,11 +61,17 @@ return packer.startup(function(use)
 			require("configs.nvim-tree")
 		end,
 	})
+	-- use({
+	-- 	"akinsho/bufferline.nvim",
+	-- 	config = function()
+	-- 		require("configs.bufferline")
+	-- 	end,
+	-- 	requires = 'nvim-tree/nvim-web-devicons'
+	-- })
 	use({
-		"akinsho/bufferline.nvim",
-		-- tag = "v3.*",
+		"willothy/nvim-cokeline",
 		config = function()
-			require("configs.bufferline")
+			require("configs.cokeline")
 		end,
 		requires = 'nvim-tree/nvim-web-devicons'
 	})

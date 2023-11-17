@@ -38,10 +38,14 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- bufferline
-keymap("n", "<A-l>", ":BufferLineMoveNext<CR>", opts)
-keymap("n", "<A-h>", ":BufferLineMovePrev<CR>", opts)
-keymap("n", "<S-l>", ":BufferLineCycleNext<CR>", opts)
-keymap("n", "<S-h>", ":BufferLineCyclePrev<CR>", opts)
+-- keymap("n", "<A-l>", ":BufferLineMoveNext<CR>", opts)
+-- keymap("n", "<A-h>", ":BufferLineMovePrev<CR>", opts)
+-- keymap("n", "<S-l>", ":BufferLineCycleNext<CR>", opts)
+-- keymap("n", "<S-h>", ":BufferLineCyclePrev<CR>", opts)
+keymap("n", "<S-l>", "<Plug>(cokeline-focus-next)", opts)
+keymap("n", "<S-h>", "<Plug>(cokeline-focus-prev)", opts)
+keymap("n", "<A-l>", "<Plug>(cokeline-switch-next)", opts)
+keymap("n", "<A-h>", "<Plug>(cokeline-switch-prev)", opts)
 
 -- Move text up and down
 keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
@@ -116,5 +120,5 @@ keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 -- Files
-keymap("n", "jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
-keymap("n", "jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
+keymap("n", "<leader>jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
+keymap("n", "<leader>jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
