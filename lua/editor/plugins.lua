@@ -122,10 +122,10 @@ return packer.startup(function(use)
 	-- LSP
 	use({ "williamboman/mason.nvim" })
 	use({ "WhoIsSethDaniel/mason-tool-installer.nvim" })
-	use({ "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- for formatters and linters
+	use({ "nvimtools/none-ls.nvim", requires = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" } }) -- for formatters and linters
 	use({
 		"jay-babu/mason-null-ls.nvim",
-		requires = { "jose-elias-alvarez/null-ls.nvim" },
+		requires = { "nvimtools/none-ls.nvim" },
 				config = function()
 			require("configs.mason-null-ls")
 		end,
@@ -142,7 +142,7 @@ return packer.startup(function(use)
 	--use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },config = function() require"configs.null-ls" end,} -- for formatters and linters
 	use({
 		"MunifTanjim/prettier.nvim",
-		after = "null-ls.nvim",
+		after = "none-ls.nvim",
 		config = function()
 			require("configs.prettier")
 		end,
@@ -195,13 +195,13 @@ return packer.startup(function(use)
 	})
 
 	-- rest client
-	use({
-		"rest-nvim/rest.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("configs.rest-nvim")
-		end,
-	})
+	-- use({
+	-- 	"rest-nvim/rest.nvim",
+	-- 	requires = { "nvim-lua/plenary.nvim" },
+	-- 	config = function()
+	-- 		require("configs.rest-nvim")
+	-- 	end,
+	-- })
 	-- tabnine
 	-- use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
 	use({

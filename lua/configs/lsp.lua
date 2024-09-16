@@ -40,7 +40,7 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
-	if client.name == "tsserver" then
+	if client.name == "ts_ls" then
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
@@ -71,7 +71,7 @@ require("lspconfig")["pyright"].setup({
 	flags = lsp_flags,
 	root_dir = lspconfig.util.root_pattern(unpack(python_root_files)),
 })
-require("lspconfig")["tsserver"].setup({
+require("lspconfig")["ts_ls"].setup({
 	flags = lsp_flags,
 	on_attach = on_attach,
 })

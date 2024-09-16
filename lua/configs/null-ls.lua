@@ -21,7 +21,8 @@ require("null-ls").setup({
 		require("null-ls").builtins.formatting.black,
 		require("null-ls").builtins.formatting.djlint,
 		-- require("null-ls").builtins.formatting.djhtml,
-		require("null-ls").builtins.diagnostics.eslint,
+		-- require("null-ls").builtins.diagnostics.eslint,
+		require("none-ls.diagnostics.eslint"), -- requires none-ls-extras.nvim
 	},
 	on_attach = function(client, bufnr)
 		if client.server_capabilities.documentFormattingProvider then
