@@ -37,13 +37,24 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "<space>f", function()
-		vim.lsp.buf.format({ async = true })
-	end, bufopts)
+	-- vim.keymap.set("n", "<space>f", function()
+	-- 	vim.lsp.buf.format({ async = true })
+	-- end, bufopts)
 	if client.name == "ts_ls" then
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
+	end
+	if client.name == "omnisharp" then
+		-- replaces vim.lsp.buf.definition()
+		vim.keymap.set("n", "gd", "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>", bufopts)
+		vim.keymap.set("n", "<C-LeftMouse>", "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>", bufopts)
+		-- replaces vim.lsp.buf.type_definition()
+		vim.keymap.set("n", "<leader>D", "<cmd>lua require('omnisharp_extended').lsp_type_definition()<cr>", bufopts)
+		-- replaces vim.lsp.buf.references()
+		vim.keymap.set("n", "gr", "<cmd>lua require('omnisharp_extended').lsp_references()<cr>", bufopts)
+		-- replaces vim.lsp.buf.implementation()
+		vim.keymap.set("n", "gi", "<cmd>lua require('omnisharp_extended').lsp_implementation()<cr>", bufopts)
 	end
 	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 		virtual_text = false,
@@ -122,5 +133,17 @@ require("lspconfig")["emmet_ls"].setup({
 				["bem.enabled"] = true,
 			},
 		},
+	},
+})
+
+require("lspconfig").omnisharp.setup({
+	-- cmd = { "dotnet", "/path/to/omnisharp/OmniSharp.dll" },
+	on_attach = on_attach,
+	capabilities = capabilities,
+	handlers = {
+		["textDocument/definition"] = require("omnisharp_extended").definition_handler,
+		["textDocument/typeDefinition"] = require("omnisharp_extended").type_definition_handler,
+		["textDocument/references"] = require("omnisharp_extended").references_handler,
+		["textDocument/implementation"] = require("omnisharp_extended").implementation_handler,
 	},
 })

@@ -62,9 +62,11 @@ return packer.startup(function(use)
 		end,
 	})
 	use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-})
+		"iamcco/markdown-preview.nvim",
+		run = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	})
 	-- use({
 	-- 	"akinsho/bufferline.nvim",
 	-- 	config = function()
@@ -77,7 +79,7 @@ return packer.startup(function(use)
 		config = function()
 			require("configs.cokeline")
 		end,
-		requires = 'nvim-tree/nvim-web-devicons'
+		requires = "nvim-tree/nvim-web-devicons",
 	})
 	use("moll/vim-bbye")
 	use({
@@ -120,11 +122,26 @@ return packer.startup(function(use)
 	})
 
 	-- LSP
-	use({ "williamboman/mason.nvim" })
-	use({ "WhoIsSethDaniel/mason-tool-installer.nvim" })
-	use({ "nvimtools/none-ls.nvim", requires = { "nvim-lua/plenary.nvim", "nvimtools/none-ls-extras.nvim" } }) -- for formatters and linters
+	use({ "Hoffs/omnisharp-extended-lsp.nvim" })
+	use({
+		"williamboman/mason.nvim",
+		after = "omnisharp-extended-lsp.nvim",
+	})
+	use({ "WhoIsSethDaniel/mason-tool-installer.nvim", after="mason.nvim" })
+	use({ "nvimtools/none-ls.nvim", requires = {
+		"nvim-lua/plenary.nvim",
+		"nvimtools/none-ls-extras.nvim",
+		"Hoffs/omnisharp-extended-lsp.nvim"
+	} }) -- for formatters and linters
+	use({
+		"stevearc/conform.nvim",
+		config = function()
+			require("configs.conform")
+		end,
+	})
 	use({
 		"jay-babu/mason-null-ls.nvim",
+		after="mason.nvim",
 		requires = { "nvimtools/none-ls.nvim" },
 				config = function()
 			require("configs.mason-null-ls")
@@ -133,7 +150,7 @@ return packer.startup(function(use)
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({
 		"williamboman/mason-lspconfig.nvim",
-		after = "mason.nvim",
+		after = { "mason.nvim" },
 		config = function()
 			require("configs.lsp")
 		end,
@@ -142,7 +159,6 @@ return packer.startup(function(use)
 	--use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },config = function() require"configs.null-ls" end,} -- for formatters and linters
 	use({
 		"MunifTanjim/prettier.nvim",
-		after = "none-ls.nvim",
 		config = function()
 			require("configs.prettier")
 		end,

@@ -84,7 +84,7 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Telescope
 -- keymap("n", "<leader>f", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>", opts)
-keymap("n", "<leader>ff", "<cmd>lua require'telescope.builtin'.find_files()<cr>", opts)
+keymap("n", "<leader>F", "<cmd>lua require'telescope.builtin'.find_files()<cr>", opts)
 keymap("n", "<leader>gg", "<cmd>lua require'telescope.builtin'.git_files()<cr>", opts)
 keymap("n", "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep()<cr>", opts)
 keymap("n", "<leader>fb", "<cmd>lua require'telescope.builtin'.buffers()<cr>", opts)
@@ -122,3 +122,5 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- Files
 keymap("n", "<leader>jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
 keymap("n", "<leader>jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
+---
+keymap("n", "<leader>f", "<cmd>lua require('conform').format()<cr>", term_opts)
