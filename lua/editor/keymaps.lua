@@ -99,7 +99,7 @@ keymap("n", "<leader>tff", "<cmd>NvimTreeFindFile<cr>", opts)
 keymap("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
 
 --
-keymap("n", "<leader>g", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", { noremap = true, silent = true })
+keymap("n", "<leader>lg", "<cmd>LazyGit<cr>", opts)
 
 -- rest-nvim
 keymap("n", "<leader>rc", "<cmd>lua require'rest-nvim'.run()<CR>", { noremap = true, silent = true })
@@ -122,5 +122,13 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 -- Files
 keymap("n", "<leader>jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
 keymap("n", "<leader>jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
----
 keymap("n", "<leader>f", "<cmd>lua require('conform').format()<cr>", term_opts)
+
+-- Format
+
+keymap("n", "<leader>;", "A;<Esc><cr>", term_opts)
+-- keymap("n", '<leader>"', ":s/'/\"/g<CR>", term_opts)
+-- keymap("n", "<leader>'", ":s/\"/'/g<CR>", term_opts)
+
+keymap("x", '"', ":s/\\%V'/\"/g", term_opts)
+keymap("x", "'", ":s/\\%V\"/'/g", term_opts)

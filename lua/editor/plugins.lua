@@ -127,12 +127,15 @@ return packer.startup(function(use)
 		"williamboman/mason.nvim",
 		after = "omnisharp-extended-lsp.nvim",
 	})
-	use({ "WhoIsSethDaniel/mason-tool-installer.nvim", after="mason.nvim" })
-	use({ "nvimtools/none-ls.nvim", requires = {
-		"nvim-lua/plenary.nvim",
-		"nvimtools/none-ls-extras.nvim",
-		"Hoffs/omnisharp-extended-lsp.nvim"
-	} }) -- for formatters and linters
+	use({ "WhoIsSethDaniel/mason-tool-installer.nvim", after = "mason.nvim" })
+	use({
+		"nvimtools/none-ls.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvimtools/none-ls-extras.nvim",
+			"Hoffs/omnisharp-extended-lsp.nvim",
+		},
+	}) -- for formatters and linters
 	use({
 		"stevearc/conform.nvim",
 		config = function()
@@ -141,9 +144,9 @@ return packer.startup(function(use)
 	})
 	use({
 		"jay-babu/mason-null-ls.nvim",
-		after="mason.nvim",
+		after = "mason.nvim",
 		requires = { "nvimtools/none-ls.nvim" },
-				config = function()
+		config = function()
 			require("configs.mason-null-ls")
 		end,
 	})
@@ -208,6 +211,16 @@ return packer.startup(function(use)
 	use({
 		"airblade/vim-gitgutter",
 		after = "vim-fugitive",
+	})
+	use({
+		"kdheepak/lazygit.nvim",
+		requires = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("telescope").load_extension("lazygit")
+		end,
 	})
 
 	-- rest client
