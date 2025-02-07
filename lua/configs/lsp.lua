@@ -1,5 +1,4 @@
 function load_config()
-	require("configs.null-ls")
 	require("configs.mason")
 	require("configs.mason-lspconfig")
 	require("configs.mason-tool-installer")

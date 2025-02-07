@@ -121,6 +121,16 @@ return packer.startup(function(use)
 		end,
 	})
 
+	-- Telescope
+	use({ "nvim-telescope/telescope.nvim" })
+	use({
+		"nvim-telescope/telescope-media-files.nvim",
+		after = "telescope.nvim",
+		config = function()
+			require("configs.telescope")
+		end,
+	})
+
 	-- LSP
 	use({ "Hoffs/omnisharp-extended-lsp.nvim" })
 	use({
@@ -128,26 +138,11 @@ return packer.startup(function(use)
 		after = "omnisharp-extended-lsp.nvim",
 	})
 	use({ "WhoIsSethDaniel/mason-tool-installer.nvim", after = "mason.nvim" })
-	use({
-		"nvimtools/none-ls.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvimtools/none-ls-extras.nvim",
-			"Hoffs/omnisharp-extended-lsp.nvim",
-		},
-	}) -- for formatters and linters
+
 	use({
 		"stevearc/conform.nvim",
 		config = function()
 			require("configs.conform")
-		end,
-	})
-	use({
-		"jay-babu/mason-null-ls.nvim",
-		after = "mason.nvim",
-		requires = { "nvimtools/none-ls.nvim" },
-		config = function()
-			require("configs.mason-null-ls")
 		end,
 	})
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
@@ -158,24 +153,10 @@ return packer.startup(function(use)
 			require("configs.lsp")
 		end,
 	})
-	-- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }}
-	--use {"jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" },config = function() require"configs.null-ls" end,} -- for formatters and linters
 	use({
 		"MunifTanjim/prettier.nvim",
 		config = function()
 			require("configs.prettier")
-		end,
-	})
-	-- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim}
-	-- use {"jayp0521/mason-null-ls.nvim", after = { "mason.nvim", "null-ls.nvim" }, config = function() require"configs.null-ls" end,}
-
-	-- Telescope
-	use({ "nvim-telescope/telescope.nvim" })
-	use({
-		"nvim-telescope/telescope-media-files.nvim",
-		after = "telescope.nvim",
-		config = function()
-			require("configs.telescope")
 		end,
 	})
 
@@ -222,26 +203,6 @@ return packer.startup(function(use)
 			require("telescope").load_extension("lazygit")
 		end,
 	})
-
-	-- rest client
-	-- use({
-	-- 	"rest-nvim/rest.nvim",
-	-- 	requires = { "nvim-lua/plenary.nvim" },
-	-- 	config = function()
-	-- 		require("configs.rest-nvim")
-	-- 	end,
-	-- })
-	-- tabnine
-	-- use { 'codota/tabnine-nvim', run = "./dl_binaries.sh", config = function() require'configs.tabnine-nvim' end, }
-	use({
-		"tzachar/cmp-tabnine",
-		run = "./install.sh",
-		requires = "hrsh7th/nvim-cmp",
-		config = function()
-			require("configs.cmp-tabnine")
-		end,
-	})
-
 	-- session
 	use({
 		"folke/persistence.nvim",
@@ -251,20 +212,6 @@ return packer.startup(function(use)
 			require("persistence").setup()
 		end,
 	})
-
-	-- use({
-	-- 	"jackMort/ChatGPT.nvim",
-	-- 		config = function()
-	-- 			require("chatgpt").setup({
-	-- 				-- optional configuration
-	-- 			})
-	-- 		end,
-	-- 		requires = {
-	-- 			"MunifTanjim/nui.nvim",
-	-- 			"nvim-lua/plenary.nvim",
-	-- 			"nvim-telescope/telescope.nvim"
-	-- 		}
-	-- })
 
 	-- editorconfig
 	use({ "gpanders/editorconfig.nvim" })
