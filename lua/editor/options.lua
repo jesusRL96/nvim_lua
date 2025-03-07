@@ -32,8 +32,6 @@ o.listchars = {
 -- o.list = true
 -- o.synmaxcol = 100
 o.ttyfast = true
-o.lazyredraw = true
-o.wrap = false
 
 vim.g.clipboard = {
 	name = 'OSC 52',
@@ -46,3 +44,22 @@ vim.g.clipboard = {
 		['*'] = require('vim.ui.clipboard.osc52').paste('*'),
 	},
 }
+
+-- Wrap
+o.wrap = false
+o.linebreak = true
+o.scrolloff = 3
+
+o.textwidth = 0
+o.wrapmargin = 0
+
+o.history = 1000
+o.lazyredraw = true 
+o.synmaxcol = 200
+o.timeoutlen = 500
+o.undolevels=100
+o.maxmempattern=2000000
+
+o.cursorline = false
+o.cursorcolumn = false
+o.foldmethod = 'manual'
