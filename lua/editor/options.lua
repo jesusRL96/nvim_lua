@@ -1,5 +1,7 @@
 o = vim.opt
 
+-- vim.g.loaded_node_provider = 0
+
 o.ignorecase = true
 o.autoindent = true
 o.number = true
@@ -54,7 +56,7 @@ o.textwidth = 0
 o.wrapmargin = 0
 
 o.history = 1000
-o.lazyredraw = true 
+o.lazyredraw = true
 o.synmaxcol = 200
 o.timeoutlen = 500
 o.undolevels=100
@@ -63,3 +65,17 @@ o.maxmempattern=2000000
 o.cursorline = false
 o.cursorcolumn = false
 o.foldmethod = 'manual'
+
+
+
+-- deshabilitar node_modules
+vim.api.nvim_create_autocmd('BufReadPre', {
+  pattern = '*/node_modules/*',
+  callback = function()
+    -- Disable LSP for files inside `node_modules`
+    vim.diagnostic.disable()
+    vim.defer_fn(function()
+      vim.cmd('TSBufDisable highlight') -- Disable Treesitter (if used)
+    end, 0)
+  end,
+})

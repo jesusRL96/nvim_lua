@@ -43,6 +43,9 @@ local on_attach = function(client, bufnr)
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
+		if string.find(vim.fn.expand('%:p'), 'node_modules') then
+      vim.diagnostic.disable(bufnr)
+    end
 	end
 	if client.name == "omnisharp" then
 		-- replaces vim.lsp.buf.definition()
@@ -82,6 +85,15 @@ require("lspconfig")["pyright"].setup({
 	root_dir = lspconfig.util.root_pattern(unpack(python_root_files)),
 })
 require("lspconfig")["ts_ls"].setup({
+	filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
+	root_dir = function(fname)
+    return require('lspconfig.util').root_pattern(
+      'package.json',
+      'tsconfig.json',
+      'jsconfig.json',
+      '.git'
+    )(fname) or vim.fn.getcwd()
+  end,
 	flags = lsp_flags,
 	on_attach = on_attach,
 })

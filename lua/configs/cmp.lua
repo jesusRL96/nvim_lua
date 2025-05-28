@@ -35,15 +35,29 @@ cmp.setup({
 		["<Tab>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
+    { name = 'nvim_lsp', priority = 1000 },
+    {
+      name = 'nvim_lsp',
+      priority = 1100,
+      entry_filter = function(entry)
+        return entry:get('data')['client'] == 'ts_ls'  -- Only tsserver
+      end
+    },
+    {
+      name = 'nvim_lsp',
+      priority = 900,
+      entry_filter = function(entry)
+        return entry:get('data')['client'] == 'emmet_ls'  -- Only eslint
+      end
+    },
 		-- { name = "cmp_tabnine" },
-		{ name = "vsnip" }, -- For vsnip users.
-		{ name = "path" }, -- For vsnip users.
-		{ name = 'luasnip' }, -- For luasnip users.
-		-- { name = 'ultisnips' }, -- For ultisnips users.
+		{ name = "vsnip", priority = 600 }, -- For vsnip users.
+		{ name = "path", priority = 500 }, -- For vsnip users.
+		{ name = 'luasnip', priority = 400}, -- For luasnip users.
 		-- { name = 'snippy' }, -- For snippy users.
+		-- { name = 'ultisnips' }, -- For ultisnips users.
 	}, {
-		{ name = "buffer" },
+		{ name = "buffer"},
 	}),
 	formatting = {
 		format = function(entry, vim_item)
@@ -62,6 +76,10 @@ cmp.setup({
 					vim_item.kind = vim_item.kind .. " " .. "[ML]"
 				end
 			end
+			if entry.source.name == 'nvim_lsp' then
+        local client_name = entry.source.source.client.config.name
+        vim_item.menu = '[LSP:' .. client_name .. ']'
+      end
 			local maxwidth = 80
 			vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
 			return vim_item
