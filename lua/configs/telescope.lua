@@ -98,6 +98,16 @@ telescope.setup({
 			filetypes = { "png", "webp", "jpg", "jpeg" },
 			find_cmd = "rg", -- find command (defaults to `fd`)
 		},
+		lazygit = {
+      -- Only show tracked files (ignores node_modules)
+      only_show_tracked_files = true,
+      -- Use `fd`/`rg` with node_modules excluded
+      fzf_opts = {
+        ["--delimiter"] = ":",
+        ["--nth"] = "2..",
+        ["--query"] = "--glob=!node_modules/**",  -- Explicitly exclude
+      },
+    },
 		-- Your extension configuration goes here:
 		-- extension_name = {
 		--   extension_config_key = value,

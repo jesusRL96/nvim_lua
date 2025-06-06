@@ -195,12 +195,9 @@ return packer.startup(function(use)
 	})
 	use({
 		"kdheepak/lazygit.nvim",
-		requires = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim",
-		},
+		requires = { "nvim-lua/plenary.nvim" },
 		config = function()
-			require("telescope").load_extension("lazygit")
+			vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', {})
 		end,
 	})
 	-- session

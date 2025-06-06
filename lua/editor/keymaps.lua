@@ -99,7 +99,8 @@ keymap("n", "<leader>tff", "<cmd>NvimTreeFindFile<cr>", opts)
 keymap("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
 
 --
-keymap("n", "<leader>lg", "<cmd>LazyGit<cr>", opts)
+-- vim.g.lazygit_flags = '--filter=node_modules'  -- Ignore node_modules
+-- keymap('n', '<leader>lg', ':LazyGit<CR>', {})
 
 -- rest-nvim
 keymap("n", "<leader>rc", "<cmd>lua require'rest-nvim'.run()<CR>", { noremap = true, silent = true })
