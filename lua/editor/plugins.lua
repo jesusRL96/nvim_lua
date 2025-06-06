@@ -1,220 +1,257 @@
--- Automatically install packer
+-- Packer bootstrap and setup
 local ensure_packer = function()
 	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.cmd([[packadd packer.nvim]])
+		fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+		vim.cmd [[packadd packer.nvim]]
 		return true
 	end
 	return false
 end
 
 local packer_bootstrap = ensure_packer()
-local fn = vim.fn
 
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd([[
+-- Auto-reload when plugins.lua changes
+vim.cmd [[
   augroup packer_user_config
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
-]])
+]]
 
--- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-	return
-end
+-- Protected require and init
+local status_ok, packer = pcall(require, 'packer')
+if not status_ok then return end
 
--- Have packer use a popup window
-packer.init({
+packer.init {
 	display = {
-		open_fn = function()
-			return require("packer.util").float({ border = "rounded" })
-		end,
+		open_fn = function() return require('packer.util').float { border = 'rounded' } end,
+		-- Faster display by reducing animation time
+		working_sym = '⟳',
+		error_sym = '✗',
+		done_sym = '✓',
+		removed_sym = '-',
+		moved_sym = '→',
+		header_sym = '━',
+		show_all_info = false,
 	},
-})
+	-- Enable git cloning with depth 1 for faster installs
+	git = { clone_timeout = 60, depth = 1 },
+	-- Automatically clean unused plugins
+	auto_clean = true,
+	-- Reduce the threshold for concurrent operations
+	max_jobs = 20,
+}
 
--- Install your plugins here
 return packer.startup(function(use)
-	-- My plugins here
-	use("wbthomason/packer.nvim") -- Have packer manage itself
-	use("nvim-lua/popup.nvim") -- An implementation of the Popup API from vim in Neovim
-	use("nvim-lua/plenary.nvim") -- Useful lua functions used ny lots of pluginsuse
-	use({
-		"windwp/nvim-autopairs",
-		config = function()
-			require("configs.autopairs")
-		end,
-	}) -- Autopairs, integrates with both cmp and treesitter
-	use({
-		"numToStr/Comment.nvim",
-		config = function()
-			require("configs.comment")
-		end,
-	}) -- Easily comment stuff
-	use("kyazdani42/nvim-web-devicons")
-	use({
-		"kyazdani42/nvim-tree.lua",
-		config = function()
-			require("configs.nvim-tree")
-		end,
-	})
-	use({
-		"iamcco/markdown-preview.nvim",
-		run = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	})
-	-- use({
-	-- 	"akinsho/bufferline.nvim",
-	-- 	config = function()
-	-- 		require("configs.bufferline")
-	-- 	end,
-	-- 	requires = 'nvim-tree/nvim-web-devicons'
-	-- })
-	use({
-		"willothy/nvim-cokeline",
-		config = function()
-			require("configs.cokeline")
-		end,
-		requires = "nvim-tree/nvim-web-devicons",
-	})
-	use("moll/vim-bbye")
-	use({
-		"nvim-lualine/lualine.nvim",
-		config = function()
-			require("configs.lualine")
-		end,
-	})
-	use({
-		"akinsho/toggleterm.nvim",
-		config = function()
-			require("configs.toggleterm")
-		end,
-	})
+	-- Packer can manage itself
+	use 'wbthomason/packer.nvim'
 
-	-- colorschemes
-	use({ "EdenEast/nightfox.nvim" })
-	use("savq/melange")
+	-- Core dependencies
+	use 'nvim-lua/plenary.nvim'
+	use 'nvim-lua/popup.nvim'
 
-	-- snippets
-	use({ "L3MON4D3/LuaSnip" }) --snippet engine
-	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
-	use({ "onsails/lspkind.nvim" })
+	-- UI Components
+	use {
+		'kyazdani42/nvim-web-devicons',
+		config = function() require('configs.devicons') end
+	}
 
-	-- cmp plugins
-	use({ "hrsh7th/nvim-cmp", after = "lspkind.nvim" }) -- The completion plugin
-	use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" }) -- buffer completions
-	use({ "hrsh7th/cmp-path", after = "cmp-buffer" }) -- path completions
-	use({ "hrsh7th/cmp-cmdline", after = "cmp-path" }) -- cmdline completions
-	use({ "hrsh7th/cmp-vsnip" })
-	use({ "hrsh7th/vim-vsnip" })
-	use({ "hrsh7th/vim-vsnip-integ" })
-	use({ "saadparwaiz1/cmp_luasnip", after = "cmp-cmdline" }) -- snippet completions
-	use({
-		"hrsh7th/cmp-nvim-lsp",
-		after = "cmp_luasnip",
-		config = function()
-			require("configs.cmp")
-		end,
-	})
+	-- Editor Enhancements
+	use {
+		'windwp/nvim-autopairs',
+		config = function() require('configs.autopairs') end,
+		event = 'InsertEnter',
+	}
+
+	use {
+		'numToStr/Comment.nvim',
+		config = function() require('configs.comment') end,
+		keys = { 'gc', 'gb' },
+	}
+
+	-- File Explorer
+	use {
+		'kyazdani42/nvim-tree.lua',
+		config = function() require('configs.nvim-tree') end,
+	}
+
+	-- Bufferline
+	use {
+		'willothy/nvim-cokeline',
+		config = function() require('configs.cokeline') end,
+		after = 'nvim-web-devicons',
+		event = 'BufReadPost',
+	}
+
+	use 'moll/vim-bbye' -- Better buffer deletion
+
+	-- Status Line
+	use {
+		'nvim-lualine/lualine.nvim',
+		config = function() require('configs.lualine') end,
+		after = 'nvim-web-devicons',
+	}
+
+	-- Terminal
+	use {
+		'akinsho/toggleterm.nvim',
+		config = function() require('configs.toggleterm') end,
+		cmd = 'ToggleTerm',
+	}
+
+	-- Colorschemes
+	use 'EdenEast/nightfox.nvim'
+	use 'savq/melange'
+
+	-- Snippets
+	use {
+		'L3MON4D3/LuaSnip',
+		config = function() require('configs.luasnip') end,
+		event = 'InsertEnter',
+	}
+	use 'rafamadriz/friendly-snippets'
+
+	-- Completion
+	use {
+		'hrsh7th/nvim-cmp',
+		config = function() require('configs.cmp') end,
+		event = 'InsertEnter',
+	}
+
+	-- Cmp Sources
+	use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
+	use { 'hrsh7th/cmp-path', after = 'cmp-buffer' }
+	use { 'hrsh7th/cmp-cmdline', after = 'cmp-path' }
+	use { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', requires = {
+		'hrsh7th/cmp-nvim-lsp',              -- For enhanced capabilities
+		'Hoffs/omnisharp-extended-lsp.nvim', -- For Omnisharp
+	} }
+	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
+	use 'onsails/lspkind.nvim'
 
 	-- Telescope
-	use({ "nvim-telescope/telescope.nvim" })
-	use({
-		"nvim-telescope/telescope-media-files.nvim",
-		after = "telescope.nvim",
-		config = function()
-			require("configs.telescope")
-		end,
-	})
+	use {
+		'nvim-telescope/telescope.nvim',
+		config = function() require('configs.telescope') end,
+	}
+	-- use { 'nvim-telescope/telescope-media-files.nvim', after = 'telescope.nvim' }
 
 	-- LSP
-	use({ "Hoffs/omnisharp-extended-lsp.nvim" })
-	use({
-		"williamboman/mason.nvim",
-		after = "omnisharp-extended-lsp.nvim",
-	})
-	use({ "WhoIsSethDaniel/mason-tool-installer.nvim", after = "mason.nvim" })
+	use {
+		'neovim/nvim-lspconfig',
+		config = function() require('configs.lsp') end,
+		event = 'BufReadPre',
+	}
 
-	use({
-		"stevearc/conform.nvim",
+	use {
+		'williamboman/mason.nvim',
 		config = function()
-			require("configs.conform")
-		end,
-	})
-	use({ "neovim/nvim-lspconfig" }) -- enable LSP
-	use({
-		"williamboman/mason-lspconfig.nvim",
-		after = { "mason.nvim" },
-		config = function()
-			require("configs.lsp")
-		end,
-	})
-	use({
-		"MunifTanjim/prettier.nvim",
-		config = function()
-			require("configs.prettier")
-		end,
-	})
+			require('mason').setup({
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗"
+					}
+				}
+			})
+		end
+	}
 
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			require("nvim-treesitter.install").update({ with_sync = true })
-		end,
-	})
-	-- use "nvim-treesitter/playground"
-	use({ "p00f/nvim-ts-rainbow", after = "nvim-treesitter" })
-	use({
-		"JoosepAlviste/nvim-ts-context-commentstring",
-		after = "nvim-treesitter",
+	use {
+		'williamboman/mason-lspconfig.nvim',
+		after = 'mason.nvim',
 		config = function()
-			require("configs.treesitter")
-		end,
-	})
-	use({
-		"windwp/nvim-ts-autotag",
-		after = "nvim-treesitter",
-	})
+			require('mason-lspconfig').setup({
+				ensure_installed = {
+					'ts_ls',
+					'emmet_ls',
+					'lua_ls',
+					'pyright',
+					'rust_analyzer',
+					'omnisharp'
+				},
+				automatic_installation = true
+			})
+		end
+	}
+
+	use {
+		'WhoIsSethDaniel/mason-tool-installer.nvim',
+		after = 'mason.nvim',
+		config = function() require('configs.mason-tool-installer') end,
+	}
+
+	-- Formatting
+	use {
+		'stevearc/conform.nvim',
+		config = function() require('configs.conform') end,
+	}
+
+	-- Treesitter
+	use {
+		'nvim-treesitter/nvim-treesitter',
+		run = ':TSUpdate',
+		config = function() require('configs.treesitter') end,
+		event = 'BufReadPost',
+	}
+
+	use {
+		'p00f/nvim-ts-rainbow',
+		after = 'nvim-treesitter',
+	}
+
+	use {
+		'windwp/nvim-ts-autotag',
+		after = 'nvim-treesitter',
+	}
+
+	use {
+		'JoosepAlviste/nvim-ts-context-commentstring',
+		after = 'nvim-treesitter',
+	}
 
 	-- Git
-	use("tpope/vim-fugitive")
-	use({
-		"lewis6991/gitsigns.nvim",
-		after = "vim-fugitive",
-		config = function()
-			require("configs.gitsigns")
-		end,
-	})
-	use({
-		"airblade/vim-gitgutter",
-		after = "vim-fugitive",
-	})
-	use({
-		"kdheepak/lazygit.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
-		config = function()
-			vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', {})
-		end,
-	})
-	-- session
-	use({
-		"folke/persistence.nvim",
-		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		module = "persistence",
-		config = function()
-			require("persistence").setup()
-		end,
-	})
+	use {
+		'tpope/vim-fugitive',
+	}
 
-	-- editorconfig
-	use({ "gpanders/editorconfig.nvim" })
+	use {
+		'lewis6991/gitsigns.nvim',
+		config = function() require('configs.gitsigns') end,
+		event = 'BufReadPost',
+	}
 
-	-- Put this at the end after all plugins
-	if PACKER_BOOTSTRAP then
-		require("packer").sync()
+	use {
+		'kdheepak/lazygit.nvim',
+		config = function()
+			vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true })
+		end,
+	}
+
+	-- Sessions
+	use {
+		'folke/persistence.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+		config = function()
+			require('persistence').setup({
+      -- Required: Set the directory to save sessions
+      dir = vim.fn.expand(vim.fn.stdpath('state') .. '/sessions/'),
+
+      -- Optional: Default options you might want
+      options = { "buffers", "curdir", "tabpages", "winsize" },
+      pre_save = nil,
+    })
+		end,
+	}
+
+	-- EditorConfig
+	use 'gpanders/editorconfig.nvim'
+
+	-- Automatically set up your configuration after cloning packer.nvim
+	if packer_bootstrap then
+		require('packer').sync()
 	end
 end)

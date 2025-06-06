@@ -64,6 +64,15 @@ require("cokeline").setup({
 			end,
 		},
 		{
+      text = function(buffer)
+        -- Show a ● symbol if the buffer has unsaved changes
+        return buffer.is_modified and "●" or " "
+      end,
+      fg = function(buffer)
+        return buffer.is_modified and "#ff0000" or nil -- Red if modified
+      end,
+    },
+		{
 			text = "  ",
 		},
 	},

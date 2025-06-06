@@ -1,3 +1,4 @@
+-- Load all configs
 for _, source in ipairs({
 	"editor.options",
 	"editor.plugins",
