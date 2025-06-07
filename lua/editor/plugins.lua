@@ -95,10 +95,8 @@ return packer.startup(function(use)
 	}
 
 	-- Terminal
-	use {
-		'akinsho/toggleterm.nvim',
+	use { "akinsho/toggleterm.nvim", tag = '*',
 		config = function() require('configs.toggleterm') end,
-		cmd = 'ToggleTerm',
 	}
 
 	-- Colorschemes
@@ -125,7 +123,7 @@ return packer.startup(function(use)
 	use { 'hrsh7th/cmp-path', after = 'cmp-buffer' }
 	use { 'hrsh7th/cmp-cmdline', after = 'cmp-path' }
 	use { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', requires = {
-		'hrsh7th/cmp-nvim-lsp',              -- For enhanced capabilities
+		'hrsh7th/cmp-nvim-lsp',            -- For enhanced capabilities
 		'Hoffs/omnisharp-extended-lsp.nvim', -- For Omnisharp
 	} }
 	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
@@ -224,12 +222,12 @@ return packer.startup(function(use)
 		event = 'BufReadPost',
 	}
 
-	use {
-		'kdheepak/lazygit.nvim',
-		config = function()
-			vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true })
-		end,
-	}
+	-- use {
+	-- 	'kdheepak/lazygit.nvim',
+	-- 	config = function()
+	-- 		vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true })
+	-- 	end,
+	-- }
 
 	-- Sessions
 	use {
@@ -237,13 +235,20 @@ return packer.startup(function(use)
 		requires = { 'nvim-lua/plenary.nvim' },
 		config = function()
 			require('persistence').setup({
-      -- Required: Set the directory to save sessions
-      dir = vim.fn.expand(vim.fn.stdpath('state') .. '/sessions/'),
+				-- Required: Set the directory to save sessions
+				dir = vim.fn.stdpath('state') .. '/sessions/',
+				options = { "buffers", "curdir", "tabpages", "winsize" },
 
-      -- Optional: Default options you might want
-      options = { "buffers", "curdir", "tabpages", "winsize" },
-      pre_save = nil,
-    })
+				-- Exclude nvim-tree buffers
+				pre_save = function(session)
+					-- Remove nvim-tree buffers from the session data
+					for i = #session.buffers, 1, -1 do
+						if session.buffers[i].name:match("NvimTree_") then
+							table.remove(session.buffers, i)
+						end
+					end
+				end,
+			})
 		end,
 	}
 
