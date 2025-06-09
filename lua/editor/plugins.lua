@@ -107,16 +107,17 @@ return packer.startup(function(use)
 	use {
 		'L3MON4D3/LuaSnip',
 		config = function() require('configs.luasnip') end,
-		event = 'InsertEnter',
-	}
-	use 'rafamadriz/friendly-snippets'
+		requires = {
+    "rafamadriz/friendly-snippets", -- Collection of pre-configured snippets (includes React)
+  } }
+	use "saadparwaiz1/cmp_luasnip"
 
 	-- Completion
 	use {
 		'hrsh7th/nvim-cmp',
 		config = function() require('configs.cmp') end,
-		event = 'InsertEnter',
-	}
+		requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/vim-vsnip-integ'
+		} }
 
 	-- Cmp Sources
 	use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }

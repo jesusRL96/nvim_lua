@@ -1,5 +1,8 @@
 local cmp = require('cmp')
 local lspkind = require('lspkind')
+local luasnip = require("luasnip")
+
+require("luasnip.loaders.from_vscode").lazy_load()
 
 -- Optimized source priority and filtering
 local sources = {
@@ -8,7 +11,7 @@ local sources = {
 
 	-- Snippet engines (choose one)
 	{ name = 'vsnip',    priority = 800 }, -- vsnip
-	-- { name = 'luasnip', priority = 800 }, -- luasnip
+	{ name = 'luasnip', priority = 800 }, -- luasnip
 
 	-- Secondary sources
 	{ name = 'path',     priority = 500 },
@@ -68,8 +71,10 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
-		['<Tab>'] = cmp.mapping.select_next_item(),
+		-- ['<Tab>'] = cmp.mapping.confirm({ select = true }),
+		-- ['<Tab>'] = cmp.mapping.select_next_item(),
+		['<Tab>'] = cmp.mapping.confirm({ select = true }),
+		['<CR>'] = cmp.mapping.confirm({ select = false }),
 		['<S-Tab>'] = cmp.mapping.select_prev_item(),
 	}),
 
