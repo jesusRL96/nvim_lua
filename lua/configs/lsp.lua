@@ -64,6 +64,16 @@ end
 
 -- Add capabilities
 M.capabilities = require('cmp_nvim_lsp').default_capabilities()
+M.ts_capabilities = {
+	textDocument = {
+		synchronization = {
+			dynamicRegistration = false,
+			willSave = true,
+			willSaveWaitUntil = false,
+			didSave = true,
+		},
+	},
+}
 
 local function get_server_path(server_name)
 	-- Check Mason install first
@@ -92,7 +102,23 @@ local servers = {
 		single_file_support = false,
 		init_options = {
 			hostInfo = "neovim",
-			tsserver = { enable = false }
+			tsserver = { enable = false },
+			preferences = {
+				-- disableSuggestions = true,
+				includeCompletionsForModuleExports = false,
+				includeCompletionsWithInsertText = false,
+			},
+			-- Disable workspace symbol search (heavy on memory)
+			disableWorkspaceSymbols = true,
+		},
+		settings = {
+			tsserver = {
+				maxTsServerMemory = 2000,
+				disableAutomaticTypeAcquisition = true,
+				experimental = {
+					enableProjectDiagnostics = false,
+				},
+			},
 		}
 	},
 	emmet_ls = {
@@ -122,24 +148,25 @@ local servers = {
 	}
 }
 
-
 function M.setup()
 	vim.g.omitted_servers = {
 		'tsserver',
 		'emmet_ls',
 		'ts_ls',
+		'pyright',
 	}
 	local default_configs = require("lspconfig.configs")
-	for _, server in ipairs({ "tsserver", "typescript", "ts_ls", "emmet_ls" }) do
+	for _, server in ipairs({ "tsserver", "typescript", "ts_ls", "emmet_ls", "pyright" }) do
 		if default_configs[server] then
 			default_configs[server] = nil
 		end
 	end
 
 	for server, config in pairs(servers) do
+		local server_capabilities = server == 'ts_ls' and M.ts_capabilities or M.capabilities
 		require('lspconfig')[server].setup({
 			on_attach = M.on_attach,
-			capabilities = M.capabilities,
+			capabilities = server_capabilities,
 		})
 	end
 end
@@ -147,7 +174,7 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local clients = vim.lsp.get_clients({ bufnr = args.buf })
-		local my_configs = { "ts_ls", "emmet_ls" } -- Your custom configured servers
+		local my_configs = { "ts_ls", "emmet_ls", "pyright" }
 
 		local keep_clients = {}
 

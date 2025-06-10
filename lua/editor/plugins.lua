@@ -108,8 +108,8 @@ return packer.startup(function(use)
 		'L3MON4D3/LuaSnip',
 		config = function() require('configs.luasnip') end,
 		requires = {
-    "rafamadriz/friendly-snippets", -- Collection of pre-configured snippets (includes React)
-  } }
+			"rafamadriz/friendly-snippets", -- Collection of pre-configured snippets (includes React)
+		} }
 	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
 
 	-- Completion
