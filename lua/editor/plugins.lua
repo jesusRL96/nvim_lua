@@ -110,7 +110,7 @@ return packer.startup(function(use)
 		requires = {
     "rafamadriz/friendly-snippets", -- Collection of pre-configured snippets (includes React)
   } }
-	use "saadparwaiz1/cmp_luasnip"
+	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
 
 	-- Completion
 	use {
@@ -127,7 +127,6 @@ return packer.startup(function(use)
 		'hrsh7th/cmp-nvim-lsp',            -- For enhanced capabilities
 		'Hoffs/omnisharp-extended-lsp.nvim', -- For Omnisharp
 	} }
-	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
 	use 'onsails/lspkind.nvim'
 
 	-- Telescope
@@ -140,7 +139,11 @@ return packer.startup(function(use)
 	-- LSP
 	use {
 		'neovim/nvim-lspconfig',
-		config = function() require('configs.lsp') end,
+		config = function()
+			if not package.loaded['configs.lsp'] then
+				require('configs.lsp').setup()
+			end
+		end,
 		event = 'BufReadPre',
 	}
 
@@ -165,8 +168,6 @@ return packer.startup(function(use)
 		config = function()
 			require('mason-lspconfig').setup({
 				ensure_installed = {
-					'ts_ls',
-					'emmet_ls',
 					'lua_ls',
 					'pyright',
 					'rust_analyzer',
