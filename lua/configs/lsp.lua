@@ -94,6 +94,16 @@ end
 -- Configure each server
 local lspconfig = require('lspconfig')
 local util = lspconfig.util
+local python_root_files = {
+	"WORKSPACE",
+	"pyproject.toml",
+	"setup.py",
+	"setup.cfg",
+	"requirements.txt",
+	"requirements.pip",
+	"Pipfile",
+	"pyrightconfig.json",
+}
 local servers = {
 	ts_ls = {
 		cmd = { "typescript-language-server", "--stdio" },
@@ -110,6 +120,10 @@ local servers = {
 			},
 			-- Disable workspace symbol search (heavy on memory)
 			disableWorkspaceSymbols = true,
+		},
+		flags = {
+			debounce_text_changes = 150,
+			allow_incremental_sync = true,
 		},
 		settings = {
 			tsserver = {
@@ -128,7 +142,7 @@ local servers = {
 	},
 	pyright = {
 		cmd = { get_server_path('pyright-langserver') or 'pyright-langserver', '--stdio' },
-		root_dir = util.root_pattern('pyproject.toml', 'setup.py', 'requirements.txt')
+		root_dir = util.root_pattern(unpack(python_root_files)),
 	},
 	omnisharp = {
 		cmd = { get_server_path('omnisharp') or 'omnisharp', '--languageserver' },
@@ -149,49 +163,17 @@ local servers = {
 }
 
 function M.setup()
-	vim.g.omitted_servers = {
-		'tsserver',
-		'emmet_ls',
-		'ts_ls',
-		'pyright',
-	}
-	local default_configs = require("lspconfig.configs")
-	for _, server in ipairs({ "tsserver", "typescript", "ts_ls", "emmet_ls", "pyright" }) do
-		if default_configs[server] then
-			default_configs[server] = nil
-		end
-	end
-
 	for server, config in pairs(servers) do
 		local server_capabilities = server == 'ts_ls' and M.ts_capabilities or M.capabilities
-		require('lspconfig')[server].setup({
+
+		-- Create the final config by properly merging all layers
+		local final_config = vim.tbl_deep_extend('force', {
 			on_attach = M.on_attach,
 			capabilities = server_capabilities,
-		})
+		}, config) -- This merges your server-specific config
+
+		require('lspconfig')[server].setup(final_config)
 	end
 end
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local clients = vim.lsp.get_clients({ bufnr = args.buf })
-		local my_configs = { "ts_ls", "emmet_ls", "pyright" }
-
-		local keep_clients = {}
-
-		for _, client in ipairs(clients) do
-			if vim.tbl_contains(my_configs, client.name) then
-				-- This is one of OUR configured servers
-				if not keep_clients[client.name] then
-					keep_clients[client.name] = client.id -- Keep first instance
-				else
-					-- Kill duplicate
-					if client.config.root_dir ~= clients[keep_clients[client.name]].config.root_dir then
-						client.stop()
-					end
-				end
-			end
-		end
-	end
-})
 
 return M
