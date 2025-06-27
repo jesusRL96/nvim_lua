@@ -29,8 +29,11 @@ M.on_attach = function(client, bufnr)
 	vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 	vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
 	vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+	-- vim.keymap.set('n', '<space>f', function()
+	-- 	vim.lsp.buf.format { async = true }
+	-- end, opts)
 	vim.keymap.set('n', '<space>f', function()
-		vim.lsp.buf.format { async = true }
+		require("conform").format({ async = true, lsp_fallback = true })
 	end, opts)
 
 	if client.name == 'tsserver' then
@@ -142,7 +145,8 @@ local servers = {
 	},
 	pyright = {
 		cmd = { get_server_path('pyright-langserver') or 'pyright-langserver', '--stdio' },
-		root_dir = util.root_pattern(unpack(python_root_files)),
+		root_dir = util.root_pattern(python_root_files),
+		single_file_support = false
 	},
 	omnisharp = {
 		cmd = { get_server_path('omnisharp') or 'omnisharp', '--languageserver' },
