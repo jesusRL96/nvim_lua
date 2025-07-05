@@ -163,7 +163,8 @@ local servers = {
 				diagnostics = { globals = { 'vim' } }
 			}
 		}
-	}
+	},
+	-- tailwindcss = {},
 }
 
 function M.setup()

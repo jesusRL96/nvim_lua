@@ -15,6 +15,7 @@ mason_null_ls.setup({
 		"eslint-lsp",
 		"omnisharp",
 		"omnisharp-mono",
+		"tailwind-language-server",
 	},
 	handlers = {
 		function() end, -- disables automatic setup of all null-ls sources

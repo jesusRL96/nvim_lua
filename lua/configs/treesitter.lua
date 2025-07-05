@@ -4,7 +4,7 @@ configs.setup({
 		"c", "lua", "vim", "vimdoc", "query",
 		"javascript", "html", "htmldjango",
 		"css", "scss", "csv",
-		"python", "sql", "yaml", "xml", "matlab", "typescript",
+		"python", "sql", "yaml", "xml", "matlab", "typescript", 'tsx',
 		"ninja", "markdown", "json", "http", "gitignore", "gitcommit", "dockerfile", "bash"
 
 	},

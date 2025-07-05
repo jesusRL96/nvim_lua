@@ -146,7 +146,7 @@ return packer.startup(function(use)
 		end,
 		event = 'BufReadPre',
 	}
-
+	use 'roobert/tailwindcss-colorizer-cmp.nvim'
 	use {
 		'williamboman/mason.nvim',
 		config = function()
@@ -205,7 +205,12 @@ return packer.startup(function(use)
 
 	use {
 		'windwp/nvim-ts-autotag',
-		after = 'nvim-treesitter',
+		after="nvim-treesitter",
+		config = function()
+			require('nvim-ts-autotag').setup({
+				filetypes = { 'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'svelte', 'vue' },
+			})
+		end
 	}
 
 	use {
