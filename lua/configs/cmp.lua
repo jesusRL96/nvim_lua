@@ -1,25 +1,29 @@
 local cmp = require('cmp')
 local lspkind = require('lspkind')
-local luasnip = require("luasnip")
 
-require("luasnip.loaders.from_vscode").lazy_load()
+-- Safe require for LuaSnip (after ensuring it's initialized)
+local luasnip_ok, luasnip = pcall(require, "luasnip")
 
 -- Optimized source priority and filtering
 local sources = {
 	-- Primary LSP source (highest priority)
 	{ name = 'nvim_lsp', priority = 1000 },
 
-	-- Snippet engines (choose one)
-	{ name = 'vsnip',    priority = 800 }, -- vsnip
-	{ name = 'luasnip', priority = 800 }, -- luasnip
+	-- Snippet engine - use only ONE
+	luasnip_ok and { name = 'luasnip', priority = 900 } or { name = 'vsnip', priority = 900 },
 
 	-- Secondary sources
 	{ name = 'path',     priority = 500 },
 	{ name = 'buffer',   priority = 250 },
-	-- { name = 'cmp_tabnine', priority = 750 },
 }
 
--- Enhanced formatting with better client detection
+-- Filter out nil sources
+local filtered_sources = {}
+for _, source in ipairs(sources) do
+	if source then table.insert(filtered_sources, source) end
+end
+
+-- Enhanced formatting
 local formatting = {
 	fields = { 'kind', 'abbr', 'menu' },
 	format = function(entry, vim_item)
@@ -29,25 +33,11 @@ local formatting = {
 			vim_item.abbr = string.sub(vim_item.abbr, 1, max_width - 3) .. '...'
 		end
 
-		-- Show LSP client name if available
-		if entry.source.name == 'nvim_lsp' then
-			local client_name = entry.source.source.client and entry.source.source.client.name or 'LSP'
-			vim_item.menu = '[' .. client_name .. ']'
-		else
-			vim_item.menu = '[' .. entry.source.name .. ']'
-		end
+		-- Show source name
+		vim_item.menu = '[' .. entry.source.name .. ']'
 
 		-- Add lspkind icons
 		vim_item.kind = lspkind.symbolic(vim_item.kind, { mode = 'symbol' })
-
-		-- Special handling for TabNine if used
-		if entry.source.name == 'cmp_tabnine' then
-			vim_item.kind = ''
-			local detail = (entry.completion_item.data or {}).detail
-			if detail and detail:find('.*%%.*') then
-				vim_item.kind = vim_item.kind .. ' ' .. detail
-			end
-		end
 
 		return vim_item
 	end
@@ -56,8 +46,12 @@ local formatting = {
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.fn['vsnip#anonymous'](args.body) -- vsnip
-			-- require('luasnip').lsp_expand(args.body) -- luasnip
+			-- Use only ONE snippet engine
+			if luasnip_ok then
+				luasnip.lsp_expand(args.body)        -- Use LuaSnip if available
+			else
+				vim.fn['vsnip#anonymous'](args.body) -- Fallback to Vsnip
+			end
 		end,
 	},
 
@@ -71,14 +65,33 @@ cmp.setup({
 		['<C-f>'] = cmp.mapping.scroll_docs(4),
 		['<C-Space>'] = cmp.mapping.complete(),
 		['<C-e>'] = cmp.mapping.abort(),
-		-- ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-		-- ['<Tab>'] = cmp.mapping.select_next_item(),
-		['<Tab>'] = cmp.mapping.confirm({ select = true }),
+
+		-- Enhanced Tab handling
+		['<Tab>'] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.confirm({ select = true })
+			elseif luasnip.expandable() then
+				luasnip.expand()
+			elseif luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
+
+		['<S-Tab>'] = cmp.mapping(function(fallback)
+			if luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { 'i', 's' }),
+
+		-- Keep existing mappings
 		['<CR>'] = cmp.mapping.confirm({ select = false }),
-		['<S-Tab>'] = cmp.mapping.select_prev_item(),
 	}),
 
-	sources = cmp.config.sources(sources),
+	sources = cmp.config.sources(filtered_sources),
 
 	formatting = formatting,
 
@@ -87,7 +100,6 @@ cmp.setup({
 		native_menu = false,
 	},
 
-	-- Performance optimizations
 	performance = {
 		debounce = 30,
 		throttle = 15,
@@ -95,7 +107,7 @@ cmp.setup({
 	}
 })
 
--- Filetype-specific configurations
+-- Filetype-specific configurations (unchanged)
 cmp.setup.filetype('gitcommit', {
 	sources = cmp.config.sources(
 		{ { name = 'git' } },
@@ -103,7 +115,7 @@ cmp.setup.filetype('gitcommit', {
 	)
 })
 
--- Command-line configurations
+-- Command-line configurations (unchanged)
 cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources(
@@ -116,3 +128,4 @@ cmp.setup.cmdline('/', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = { { name = 'buffer' } }
 })
+

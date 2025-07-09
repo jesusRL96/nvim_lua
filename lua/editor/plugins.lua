@@ -104,30 +104,54 @@ return packer.startup(function(use)
 	use 'savq/melange'
 
 	-- Snippets
+	-- 1. Snippet collection
+	use "rafamadriz/friendly-snippets"
+
+	-- 2. Snippet engine (must come AFTER friendly-snippets)
 	use {
-		'L3MON4D3/LuaSnip',
+		"L3MON4D3/LuaSnip",
 		config = function() require('configs.luasnip') end,
+		after = "friendly-snippets",
+	}
+	use { 'saadparwaiz1/cmp_luasnip' }
+
+	-- 3. Completion engine (must come AFTER LuaSnip)
+	use {
+		"hrsh7th/nvim-cmp",
+		config = function() require('configs.cmp') end,
+		after = "LuaSnip",
 		requires = {
-			"rafamadriz/friendly-snippets", -- Collection of pre-configured snippets (includes React)
-		} }
-	use { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' }
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-cmdline",
+			"onsails/lspkind.nvim",
+		}
+	}
+
 
 	-- Completion
-	use {
-		'hrsh7th/nvim-cmp',
-		config = function() require('configs.cmp') end,
-		requires = { 'hrsh7th/vim-vsnip', 'hrsh7th/vim-vsnip-integ'
-		} }
-
 	-- Cmp Sources
-	use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
-	use { 'hrsh7th/cmp-path', after = 'cmp-buffer' }
-	use { 'hrsh7th/cmp-cmdline', after = 'cmp-path' }
-	use { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp', requires = {
+	use { 'hrsh7th/cmp-buffer', }
+	use { 'hrsh7th/cmp-path', }
+	use { 'hrsh7th/cmp-cmdline', }
+	use { 'hrsh7th/cmp-nvim-lsp', requires = {
 		'hrsh7th/cmp-nvim-lsp',            -- For enhanced capabilities
 		'Hoffs/omnisharp-extended-lsp.nvim', -- For Omnisharp
 	} }
 	use 'onsails/lspkind.nvim'
+	use {
+		"hrsh7th/nvim-cmp", -- Completion engine
+		config = function() require('configs.cmp') end,
+		after = "LuaSnip", -- Load after snippet engine
+		requires = {
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-cmdline",
+			"onsails/lspkind.nvim",
+		}
+	}
 
 	-- Telescope
 	use {
@@ -205,7 +229,7 @@ return packer.startup(function(use)
 
 	use {
 		'windwp/nvim-ts-autotag',
-		after="nvim-treesitter",
+		after = "nvim-treesitter",
 		config = function()
 			require('nvim-ts-autotag').setup({
 				filetypes = { 'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'svelte', 'vue' },
@@ -229,12 +253,12 @@ return packer.startup(function(use)
 		event = 'BufReadPost',
 	}
 
-	-- use {
-	-- 	'kdheepak/lazygit.nvim',
-	-- 	config = function()
-	-- 		vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true })
-	-- 	end,
-	-- }
+	use {
+		'kdheepak/lazygit.nvim',
+		config = function()
+			vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true })
+		end,
+	}
 
 	-- Sessions
 	use {

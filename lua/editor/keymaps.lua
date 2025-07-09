@@ -124,6 +124,8 @@ keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 keymap("n", "<leader>jsxf", "<cmd>set filetype=javascriptreact<cr>:LspRestart<cr>", term_opts)
 keymap("n", "<leader>jsf", "<cmd>set filetype=javascript<cr>:LspRestart<cr>", term_opts)
 keymap("n", "<leader>f", "<cmd>lua require('conform').format()<cr>", term_opts)
+keymap("n", "<leader>qa", "<cmd>qa<cr>", term_opts)
+keymap("n", "<leader>fqa", "<cmd>qa!<cr>", term_opts)
 
 -- Format
 
