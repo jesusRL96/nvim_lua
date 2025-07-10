@@ -23,7 +23,7 @@ configs.setup({
 	-- 	enable_autocmd = false,
 	-- },
 	autotag = {
-    enable = true,
+    -- enable = true,
     enable_rename = true,
     enable_close = true,
     enable_close_on_slash = true,

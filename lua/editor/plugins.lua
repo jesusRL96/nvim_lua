@@ -13,12 +13,12 @@ end
 local packer_bootstrap = ensure_packer()
 
 -- Auto-reload when plugins.lua changes
-vim.cmd [[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
+-- vim.cmd [[
+--   augroup packer_user_config
+--     autocmd!
+--     autocmd BufWritePost plugins.lua source <afile> | PackerSync
+--   augroup end
+-- ]]
 
 -- Protected require and init
 local status_ok, packer = pcall(require, 'packer')
@@ -108,14 +108,45 @@ return packer.startup(function(use)
 	use "rafamadriz/friendly-snippets"
 
 	-- 2. Snippet engine (must come AFTER friendly-snippets)
+	-- use {
+	-- 	"L3MON4D3/LuaSnip",
+	-- 	run = "make install_jsregexp",
+	-- 	-- commit = "v2.0.0",   -- Pinned to v2+
+	-- 	-- config = function() require('configs.luasnip') end,
+	-- 	tag = "v2.0.0",
+	-- 	after = "friendly-snippets",
+	-- }
 	use {
 		"L3MON4D3/LuaSnip",
-		config = function() require('configs.luasnip') end,
+		run = function()
+			-- New CMake-based build (v2.2+)
+			if vim.fn.executable('cmake') == 1 then
+				print("Building LuaSnip jsregexp...")
+				local build_cmd = [[
+        cd ~/.local/share/nvim/site/pack/packer/start/LuaSnip &&
+        rm -rf build &&
+        mkdir -p build &&
+        cd build &&
+        cmake -DCMAKE_BUILD_TYPE=Release .. &&
+        cmake --build .
+      ]]
+				os.execute(build_cmd)
+			else
+				print("CMake not found - LuaSnip will work with limited functionality")
+			end
+		end,
+		tag = "v2.*",
 		after = "friendly-snippets",
+		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load() -- Basic setup if config fails
+			if pcall(require, 'configs.luasnip') then
+				require('configs.luasnip')
+			end
+		end,
 	}
-	use { 'saadparwaiz1/cmp_luasnip' }
 
-	-- 3. Completion engine (must come AFTER LuaSnip)
+	-- Completion
+	-- Cmp Sources
 	use {
 		"hrsh7th/nvim-cmp",
 		config = function() require('configs.cmp') end,
@@ -126,12 +157,9 @@ return packer.startup(function(use)
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-cmdline",
 			"onsails/lspkind.nvim",
+			"saadparwaiz1/cmp_luasnip"
 		}
 	}
-
-
-	-- Completion
-	-- Cmp Sources
 	use { 'hrsh7th/cmp-buffer', }
 	use { 'hrsh7th/cmp-path', }
 	use { 'hrsh7th/cmp-cmdline', }
@@ -139,19 +167,11 @@ return packer.startup(function(use)
 		'hrsh7th/cmp-nvim-lsp',            -- For enhanced capabilities
 		'Hoffs/omnisharp-extended-lsp.nvim', -- For Omnisharp
 	} }
-	use 'onsails/lspkind.nvim'
 	use {
-		"hrsh7th/nvim-cmp", -- Completion engine
-		config = function() require('configs.cmp') end,
-		after = "LuaSnip", -- Load after snippet engine
-		requires = {
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-cmdline",
-			"onsails/lspkind.nvim",
-		}
+		"saadparwaiz1/cmp_luasnip",
+		after = { "nvim-cmp", "LuaSnip" } -- Explicit dependency chain
 	}
+	use 'onsails/lspkind.nvim'
 
 	-- Telescope
 	use {

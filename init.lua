@@ -1,3 +1,7 @@
+-- Workaround for deprecated functions
+if vim.fn.has('nvim-0.10') == 0 then
+    vim.tbl_islist = vim.isarray or vim.tbl_islist
+end
 -- Load all configs
 for _, source in ipairs({
 	"editor.options",
