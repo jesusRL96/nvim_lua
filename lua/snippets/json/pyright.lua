@@ -1,9 +1,9 @@
 local ls = require("luasnip")
 return {
-  ls.parser.parse_snippet({
-    trig = "test",
-    wordTrig = true,
-  }, [[{
+	ls.parser.parse_snippet({
+		trig = "pyright",
+		wordTrig = true,
+	}, [[{
   "venvPath": "${1:.}",
   "venv": "${2:venv}",
   "include": ["${3:.}"],

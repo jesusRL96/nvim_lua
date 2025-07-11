@@ -1,6 +1,9 @@
 -- luasnip.lua
 local ls = require("luasnip")
 
+-- Docker configurations
+require("luasnip").filetype_extend("yaml", { "docker" })
+
 -- Basic configuration
 ls.config.set_config({
 	history = true,
