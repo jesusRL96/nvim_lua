@@ -183,6 +183,7 @@ return packer.startup(function(use)
 	-- LSP
 	use {
 		'neovim/nvim-lspconfig',
+		after = 'mason-lspconfig.nvim',
 		config = function()
 			if not package.loaded['configs.lsp'] then
 				require('configs.lsp').setup()

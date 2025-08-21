@@ -7,6 +7,8 @@ return {
   "venvPath": "${1:.}",
   "venv": "${2:venv}",
   "include": ["${3:.}"],
-  "extraPaths": ["${4:src}"]
+  "extraPaths": ["${4:src}"],
+	"enableReachabilityAnalysis":"${5:false}",
+	"reportUnreachable":"${5:false}",
 }]])
 }

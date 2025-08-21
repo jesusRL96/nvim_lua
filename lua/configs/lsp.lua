@@ -1,5 +1,8 @@
 -- lua/configs/lsp.lua
 local M = {}
+if not table.unpack then
+  table.unpack = unpack  -- fallback for Lua 5.1 / LuaJIT
+end
 
 M.on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
@@ -56,10 +59,10 @@ M.on_attach = function(client, bufnr)
 	end
 
 	-- BLOCK DUPLICATE CLIENTS
-	local active_clients = vim.lsp.get_active_clients()
+	local active_clients = vim.lsp.get_clients()
 	for _, active_client in ipairs(active_clients) do
 		if active_client.name == client.name and active_client.id ~= client.id then
-			client.stop() -- Kill the duplicate
+			client:stop()
 			return
 		end
 	end
@@ -99,6 +102,7 @@ local lspconfig = require('lspconfig')
 local util = lspconfig.util
 local python_root_files = {
 	"WORKSPACE",
+	"manage.py",
 	"pyproject.toml",
 	"setup.py",
 	"setup.cfg",
@@ -110,16 +114,16 @@ local python_root_files = {
 local servers = {
 	ts_ls = {
 		cmd = { "typescript-language-server", "--stdio" },
-		filetypes = { "typescript", "typescriptreact" },
+		filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact", "html" },
 		root_dir = require("lspconfig.util").root_pattern("tsconfig.json"),
 		single_file_support = false,
 		init_options = {
 			hostInfo = "neovim",
-			tsserver = { enable = false },
+			tsserver = { enable = true },
 			preferences = {
 				-- disableSuggestions = true,
-				includeCompletionsForModuleExports = false,
-				includeCompletionsWithInsertText = false,
+				includeCompletionsForModuleExports = true,
+				includeCompletionsWithInsertText = true,
 			},
 			-- Disable workspace symbol search (heavy on memory)
 			disableWorkspaceSymbols = true,
@@ -140,13 +144,13 @@ local servers = {
 	},
 	emmet_ls = {
 		cmd = { "emmet-ls", "--stdio" },
-		filetypes = { "html", "typescriptreact" }, -- Only needed filetypes
+		filetypes = { "html", "typescriptreact", "javascriptreact" }, -- Only needed filetypes
 		single_file_support = false
 	},
 	pyright = {
 		cmd = { get_server_path('pyright-langserver') or 'pyright-langserver', '--stdio' },
-		root_dir = util.root_pattern(python_root_files),
-		single_file_support = false
+		root_dir = util.root_pattern(table.unpack(python_root_files)),
+		single_file_support = false,
 	},
 	omnisharp = {
 		cmd = { get_server_path('omnisharp') or 'omnisharp', '--languageserver' },
