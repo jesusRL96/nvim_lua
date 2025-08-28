@@ -108,3 +108,4 @@ require("conform").formatters_by_ft.lua = { "stylua" }
 require("conform").formatters.my_formatter = {
 	command = "my_cmd",
 }
+return true

@@ -95,7 +95,7 @@ return packer.startup(function(use)
 	}
 
 	-- Terminal
-	use { "akinsho/toggleterm.nvim", tag = '*',
+	use { "akinsho/toggleterm.nvim",
 		config = function() require('configs.toggleterm') end,
 	}
 

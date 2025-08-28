@@ -10,3 +10,4 @@ require('nvim-tree').setup({
     ignore = false,
   },
 })
+return true
