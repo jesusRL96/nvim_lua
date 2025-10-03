@@ -59,7 +59,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	-- BLOCK DUPLICATE CLIENTS
-	local active_clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+	local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
 	for _, active_client in ipairs(active_clients) do
 		if active_client.name == client.name and active_client.id ~= client.id then
 			client:stop()

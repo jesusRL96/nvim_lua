@@ -102,6 +102,7 @@ return packer.startup(function(use)
 	-- Colorschemes
 	use 'EdenEast/nightfox.nvim'
 	use 'savq/melange'
+	use 'iibe/gruvbox-high-contrast'
 
 	-- Snippets
 	-- 1. Snippet collection
