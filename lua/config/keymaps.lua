@@ -27,3 +27,33 @@ map("v", ">", ">gv", opts)
 
 -- Git
 map("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
+
+
+-- Global last insert
+vim.api.nvim_create_autocmd("InsertLeave", {
+  callback = function()
+    vim.g.last_insert_buf = vim.api.nvim_get_current_buf()
+    vim.g.last_insert_pos = vim.api.nvim_win_get_cursor(0)
+  end,
+})
+
+vim.keymap.set("n", "go", function()
+  if vim.g.last_insert_buf and vim.api.nvim_buf_is_loaded(vim.g.last_insert_buf) then
+    vim.api.nvim_set_current_buf(vim.g.last_insert_buf)
+    pcall(vim.api.nvim_win_set_cursor, 0, vim.g.last_insert_pos)
+  else
+    vim.notify("No last insert position recorded", vim.log.levels.WARN)
+  end
+end, { desc = "Go to last insert (across buffers)" })
+
+vim.keymap.set("n", "gi", "`.", { desc = "Go to last insert position (normal mode)" })
+
+-- Move tab left with Alt+h
+vim.keymap.set("n", "<M-h>", function()
+  require("bufferline").move(-1)
+end, { desc = "Move tab left" })
+
+-- Move tab right with Alt+l
+vim.keymap.set("n", "<M-l>", function()
+  require("bufferline").move(1)
+end, { desc = "Move tab right" })
