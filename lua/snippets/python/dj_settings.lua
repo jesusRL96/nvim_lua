@@ -26,14 +26,13 @@ return {
 		)
 	),
 
-	s(
-		"dj-set-static",
-		t(
-			[[
-    STATIC_ROOT = "static"
-    ]]
-		)
-	),
+  s({
+    trig = "dj-set-static",
+  }, {
+    t({
+    "STATIC_ROOT = \"static\"",
+    }),
+  }),
 
 	s(
 		"dj-set-channels_layers",
