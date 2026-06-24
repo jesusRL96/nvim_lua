@@ -26,7 +26,7 @@ map("v", "<", "<gv", opts)
 map("v", ">", ">gv", opts)
 
 -- Git
-map("n", "gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
+map("n", "<leader>gdvs", "<cmd>:Gvdiffsplit!<cr>", opts)
 
 
 -- Global last insert
