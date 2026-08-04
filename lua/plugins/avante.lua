@@ -7,7 +7,7 @@ return {
     providers = {
       openai = {
         endpoint = "https://api.deepseek.com/v1",
-        model = "deepseek-chat", -- o "deepseek-coder"
+        model = "deepseek-v4-flash",
         api_key_name = "DEEPSEEK_API_KEY",
         extra_request_body = {
           temperature = 0.7,
