@@ -1,20 +1,18 @@
 return {
   {
     "L3MON4D3/LuaSnip",
-    opts = {
-      -- any options you want to override
-    },
-    config = function(_, opts)
-      -- First apply LazyVim's default config
-      require("luasnip").config.set_config(opts)
-      -- Docker configurations
+    -- `opts` como función: se ejecuta antes del setup, sin pisar el config por
+    -- defecto de lazy ni las opts de LazyVim (history, delete_check_events).
+    opts = function(_, opts)
+      -- Los snippets de docker también valen en YAML (docker-compose)
       require("luasnip").filetype_extend("yaml", { "docker" })
-      -- Then add your custom snippets
-      local snippets_path = vim.fn.stdpath("config") .. "/lua/snippets"
+
+      -- Snippets propios en formato Lua
       require("luasnip.loaders.from_lua").lazy_load({
-        paths = snippets_path
+        paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
       })
 
+      return opts
     end,
   },
 }

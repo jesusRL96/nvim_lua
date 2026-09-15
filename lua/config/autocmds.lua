@@ -6,3 +6,12 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+-- Recuerda dónde se salió de modo inserción por última vez (lo usa `go` en keymaps.lua)
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = vim.api.nvim_create_augroup("jesus_last_insert", { clear = true }),
+  callback = function()
+    vim.g.last_insert_buf = vim.api.nvim_get_current_buf()
+    vim.g.last_insert_pos = vim.api.nvim_win_get_cursor(0)
+  end,
+})
